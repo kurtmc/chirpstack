@@ -7,14 +7,15 @@
 package api
 
 import (
+	reflect "reflect"
+	sync "sync"
+
 	common "github.com/chirpstack/chirpstack/api/go/v4/common"
 	_ "google.golang.org/genproto/googleapis/api/annotations"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	emptypb "google.golang.org/protobuf/types/known/emptypb"
 	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
-	reflect "reflect"
-	sync "sync"
 )
 
 const (
@@ -1056,6 +1057,8 @@ type MulticastGroupQueueItem struct {
 	FPort uint32 `protobuf:"varint,3,opt,name=f_port,json=fPort,proto3" json:"f_port,omitempty"`
 	// Payload.
 	Data []byte `protobuf:"bytes,4,opt,name=data,proto3" json:"data,omitempty"`
+
+	Absolute_time int64 `protobuf:"varint,5,opt,name=absolute_time,json=absoluteTime,proto3" json:"absolute_time,omitempty"`
 }
 
 func (x *MulticastGroupQueueItem) Reset() {
