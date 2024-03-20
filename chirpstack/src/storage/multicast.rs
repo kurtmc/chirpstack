@@ -514,7 +514,7 @@ pub async fn enqueue(
                                 f_cnt: mg.f_cnt,
                                 f_port: qi.f_port,
                                 data: qi.data.clone(),
-                                emit_at_time_since_gps_epoch,
+                                emit_at_time_since_gps_epoch: qi.absolute_time,
                                 ..Default::default()
                             };
 

@@ -1,4 +1,8 @@
-.PHONY: dist api
+.PHONY: dist api docker
+
+docker:
+	docker buildx build -t kurtmc/chirpstack:4.7.1 --platform linux/arm64 -f Dockerfile.2 .
+	docker push kurtmc/chirpstack:4.7.1
 
 # Build distributable binaries.
 dist:
