@@ -463,6 +463,10 @@ impl MulticastGroupService for MulticastGroup {
                     f_cnt: qi.f_cnt as u32,
                     f_port: qi.f_port as u32,
                     data: qi.data.clone(),
+                    absolute_time: match qi.absolute_time {
+                        None => 0,
+                        Some(absolute_time) => absolute_time,
+                    },
                 });
             }
         }

@@ -276,6 +276,7 @@ diesel::table! {
         f_port -> Int2,
         data -> Bytea,
         emit_at_time_since_gps_epoch -> Nullable<Int8>,
+        absolute_time -> Nullable<Int8>,
     }
 }
 

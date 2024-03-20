@@ -293,6 +293,8 @@ message MulticastGroupQueueItem {
 
     // Payload.
     bytes data = 4;
+
+    int64 absolute_time = 5;
 }
 
 message EnqueueMulticastGroupQueueItemRequest {

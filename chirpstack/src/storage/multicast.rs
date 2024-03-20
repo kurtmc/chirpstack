@@ -98,6 +98,7 @@ pub struct MulticastGroupQueueItem {
     pub f_port: i16,
     pub data: Vec<u8>,
     pub emit_at_time_since_gps_epoch: Option<i64>,
+    pub absolute_time: Option<i64>,
 }
 
 impl MulticastGroupQueueItem {
@@ -126,6 +127,7 @@ impl Default for MulticastGroupQueueItem {
             f_port: 0,
             data: vec![],
             emit_at_time_since_gps_epoch: None,
+            absolute_time: None,
         }
     }
 }
