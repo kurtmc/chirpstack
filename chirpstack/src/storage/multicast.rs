@@ -98,7 +98,6 @@ pub struct MulticastGroupQueueItem {
     pub f_port: i16,
     pub data: Vec<u8>,
     pub emit_at_time_since_gps_epoch: Option<i64>,
-    pub absolute_time: Option<i64>,
 }
 
 impl MulticastGroupQueueItem {
@@ -127,7 +126,6 @@ impl Default for MulticastGroupQueueItem {
             f_port: 0,
             data: vec![],
             emit_at_time_since_gps_epoch: None,
-            absolute_time: None,
         }
     }
 }
@@ -493,19 +491,6 @@ pub async fn enqueue(
                             None => Utc::now(),
                         };
 
-                        let emit_at_time_since_gps_epoch = if mg.class_c_scheduling_type
-                            == fields::MulticastGroupSchedulingType::GPS_TIME
-                        {
-                            // Increment with margin as requesting the gateway to send the
-                            // downlink 'now' will result in a too late error from the gateway.
-                            scheduler_run_after_ts +=
-                                Duration::from_std(conf.network.scheduler.multicast_class_c_margin)
-                                    .unwrap();
-                            Some(scheduler_run_after_ts.to_gps_time().num_milliseconds())
-                        } else {
-                            None
-                        };
-
                         for gateway_id in gateway_ids {
                             let qi = MulticastGroupQueueItem {
                                 scheduler_run_after: scheduler_run_after_ts,
@@ -514,7 +499,7 @@ pub async fn enqueue(
                                 f_cnt: mg.f_cnt,
                                 f_port: qi.f_port,
                                 data: qi.data.clone(),
-                                emit_at_time_since_gps_epoch: qi.absolute_time,
+                                emit_at_time_since_gps_epoch: qi.emit_at_time_since_gps_epoch,
                                 ..Default::default()
                             };
 

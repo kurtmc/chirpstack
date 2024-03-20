@@ -3,6 +3,7 @@ module github.com/kurtmc/chirpstack/api/go/v4
 go 1.18
 
 require (
+	github.com/chirpstack/chirpstack/api/go/v4 v4.7.0
 	google.golang.org/genproto/googleapis/api v0.0.0-20231030173426-d783a09b4405
 	google.golang.org/grpc v1.59.0
 	google.golang.org/protobuf v1.31.0
@@ -17,3 +18,5 @@ require (
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20231030173426-d783a09b4405 // indirect
 	google.golang.org/grpc/cmd/protoc-gen-go-grpc v1.3.0 // indirect
 )
+
+replace github.com/chirpstack/chirpstack/api/go/v4 v4.7.0 => ./

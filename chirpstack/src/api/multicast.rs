@@ -13,6 +13,7 @@ use super::error::ToStatus;
 use super::helpers::{self, FromProto, ToProto};
 use crate::downlink;
 use crate::storage::multicast;
+use tracing::info;
 
 pub struct MulticastGroup {
     validator: validator::RequestValidator,
@@ -382,6 +383,7 @@ impl MulticastGroupService for MulticastGroup {
                 return Err(Status::invalid_argument("queue_item is missing"));
             }
         };
+        info!(req_enq_absolute_time = %req_enq.absolute_time, "handle enqueue");
 
         let mg_id = Uuid::from_str(&req_enq.multicast_group_id).map_err(|e| e.status())?;
 
@@ -396,6 +398,7 @@ impl MulticastGroupService for MulticastGroup {
             multicast_group_id: mg_id,
             f_port: req_enq.f_port as i16,
             data: req_enq.data.clone(),
+            emit_at_time_since_gps_epoch: Some(req_enq.absolute_time),
             ..Default::default()
         })
         .await
@@ -463,10 +466,9 @@ impl MulticastGroupService for MulticastGroup {
                     f_cnt: qi.f_cnt as u32,
                     f_port: qi.f_port as u32,
                     data: qi.data.clone(),
-                    absolute_time: match qi.absolute_time {
-                        None => 0,
-                        Some(absolute_time) => absolute_time,
-                    } as i64,
+                    absolute_time: qi
+                        .emit_at_time_since_gps_epoch
+                        .expect("I expect absolute_time"),
                 });
             }
         }
@@ -740,6 +742,7 @@ pub mod test {
                     multicast_group_id: create_resp.id.clone(),
                     f_port: 10,
                     data: vec![1, 2, 3],
+                    absolute_time: 1234,
                     ..Default::default()
                 }),
             },
@@ -764,6 +767,7 @@ pub mod test {
                 f_cnt: 31,
                 f_port: 10,
                 data: vec![1, 2, 3],
+                absolute_time: 1234,
             },
             list_queue_resp.items[0]
         );
