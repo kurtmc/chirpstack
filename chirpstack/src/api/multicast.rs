@@ -466,7 +466,7 @@ impl MulticastGroupService for MulticastGroup {
                     absolute_time: match qi.absolute_time {
                         None => 0,
                         Some(absolute_time) => absolute_time,
-                    },
+                    } as i64,
                 });
             }
         }

@@ -1058,7 +1058,7 @@ type MulticastGroupQueueItem struct {
 	// Payload.
 	Data []byte `protobuf:"bytes,4,opt,name=data,proto3" json:"data,omitempty"`
 
-	Absolute_time int64 `protobuf:"varint,5,opt,name=absolute_time,json=absoluteTime,proto3" json:"absolute_time,omitempty"`
+	AbsoluteTime int64 `protobuf:"varint,5,opt,name=absolute_time,json=absoluteTime,proto3" json:"absolute_time,omitempty"`
 }
 
 func (x *MulticastGroupQueueItem) Reset() {
